@@ -1,4 +1,4 @@
-class Heroi:
+class Hero:
     def __init__(self, key, Name, Alignment, Gender, EyeColor, Race, HairColor, Publisher, SkinColor, Height, Weight, Intelligence, Strength, Speed, Durability, Power, Combat, Total):
         self.key = key
         self.Name = Name
