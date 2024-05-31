@@ -1,3 +1,4 @@
+import os, sys
 from hero import Hero
 from file import verify_file_structure
 from sorts import quick_sort, heap_sort, merge_sort, insertion_sort
@@ -6,9 +7,19 @@ from sorts import quick_sort, heap_sort, merge_sort, insertion_sort
 
 if __name__ == "__main__":
 
-    data = verify_file_structure('input01.txt')
+    inputFileName = sys.argv[1]
+    outputFileName = sys.argv[2]
+
+    
+
+    #verificando condições do arquivo de entrada
+    if os.path.getsize(inputFileName) == 0:
+        print('\t\tarquivo inválido: o arquivo de entrada está vazio!!\n')
+        sys.exit(1)
+
+    data = verify_file_structure(inputFileName)
     sort_type = data[0]
-    sort_order_type = data[1]
+    sort_ordering_param = data[1]
     heroes_brute = data[2]
     header = data[3]
 
@@ -37,36 +48,30 @@ if __name__ == "__main__":
             Total=dados[17]
         )
         heroes.append(hero)
-        print(f"{hero.Name}")
-    with open('out1.txt', 'w', encoding='utf8') as file:
-        print("Original list:")
-        file.write(f'\told\n')
-        for hero in heroes:
-            file.write(f'{hero.key}|{hero.Name}\n')
-        # Quick Sort
-        quick_sort(heroes, 'C')
-        print("\nQuick Sort (Ascending):")
-        file.write(f'\tquick Ascending\n')
-        for hero in heroes:
-            file.write(f'{hero.key}|{hero.Name}\n')
 
-        # Heap Sort
-        heap_sort(heroes, 'D')
-        print("\nHeap Sort (Descending):")
-        file.write(f'\tHeap Descending\n')
-        for hero in heroes:
-            file.write(f'{hero.key}|{hero.Name}\n')
+#key, Name, Alignment, Gender, EyeColor, Race, HairColor, Publisher, SkinColor, Height, Weight, Intelligence, Strength, Speed, Durability, Power, Combat, Total
 
-        # Merge Sort
-        merge_sort(heroes, 'C')
-        print("\nMerge Sort (Ascending):")
-        file.write(f'\tMerge Ascending\n')
-        for hero in heroes:
-            file.write(f'{hero.key}|{hero.Name}\n')
+    with open(outputFileName, 'w', encoding='utf8') as file:
+        file.write(f"{header}\n")
+        if sort_type == "Q": #QuickSort
+            quick_sort(heroes, sort_ordering_param)
+            for hero in heroes:
+                file.write(f"{hero.key}|{hero.Name}|{hero.Alignment}|{hero.Gender}|{hero.EyeColor}|{hero.Race}|{hero.HairColor}|{hero.Publisher}|{hero.SkinColor}|{hero.Height}|{hero.Weight}|{hero.Intelligence}|{hero.Strength}|{hero.Speed}|{hero.Durability}|{hero.Power}|{hero.Combat}|{hero.Total}\n")
+            
+        elif sort_type == "M": #MergeSort
+            merge_sort(heroes, sort_ordering_param)
+            for hero in heroes:
+                file.write(f"{hero.key}|{hero.Name}|{hero.Alignment}|{hero.Gender}|{hero.EyeColor}|{hero.Race}|{hero.HairColor}|{hero.Publisher}|{hero.SkinColor}|{hero.Height}|{hero.Weight}|{hero.Intelligence}|{hero.Strength}|{hero.Speed}|{hero.Durability}|{hero.Power}|{hero.Combat}|{hero.Total}\n")
+            
+        elif sort_type == "H": #HeapSort
+            heap_sort(heroes, sort_ordering_param)
+            for hero in heroes:
+                file.write(f"{hero.key}|{hero.Name}|{hero.Alignment}|{hero.Gender}|{hero.EyeColor}|{hero.Race}|{hero.HairColor}|{hero.Publisher}|{hero.SkinColor}|{hero.Height}|{hero.Weight}|{hero.Intelligence}|{hero.Strength}|{hero.Speed}|{hero.Durability}|{hero.Power}|{hero.Combat}|{hero.Total}\n")
 
-        # Insertion Sort
-        insertion_sort(heroes, 'D')
-        print("\nInsertion Sort (Descending):")
-        file.write(f'\tInsertion Descending\n')
-        for hero in heroes:
-            file.write(f'{hero.key}|{hero.Name}\n')
+        elif sort_type == "I": #InsertionSort
+            insertion_sort(heroes, sort_ordering_param)
+            for hero in heroes:
+                file.write(f"{hero.key}|{hero.Name}|{hero.Alignment}|{hero.Gender}|{hero.EyeColor}|{hero.Race}|{hero.HairColor}|{hero.Publisher}|{hero.SkinColor}|{hero.Height}|{hero.Weight}|{hero.Intelligence}|{hero.Strength}|{hero.Speed}|{hero.Durability}|{hero.Power}|{hero.Combat}|{hero.Total}\n")
+            
+        else:
+            print("Sort parameter not accepted!")
